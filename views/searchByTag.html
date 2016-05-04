@@ -1,14 +1,12 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <h3>{{user.name}}</h3>
+  <h3>Search By Tag: {{ tag }}</h3>
   <hr>
   <ul class="list-unstyled">
     <!-- PLACEHOLDER LIST OF PAGES -->
-    {% for page in pages %}
-    <li>
-    	<a href="{{page.route}}">{{page.title}}</a>
-    </li>
+    {% for Page in Pages %}
+    <li><a href={{Page.route}}>{{Page.title}}</a></li>
     {% endfor %}
   </ul>
 {% endblock %}
