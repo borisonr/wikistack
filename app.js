@@ -1,4 +1,5 @@
 // Logs information about each incoming request.
+//
 var express = require( 'express' );
 var app = express();
 var morgan = require("morgan");
@@ -11,24 +12,24 @@ var models = require('./models/index.js');
 
 models.User.sync().then(function(result){
 	return models.Page.sync();
-}).then(function(){
-	
+}).then(function(data){
+	console.log(data);
 }).catch(console.error);
 
-//middleware
+// //middleware
 app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-
 app.use(morgan(':method :url :status'));
 app.listen(3000);
+//swig
 app.engine('html', swig.renderFile);
-app.use('/', routes);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 app.set('view cache', false);
 swig.setDefaults({ cache: false });
+//routes
 app.use(express.static(__dirname +"/public"));
-app.use("/", routes);
+app.use("/wiki", routes);
