@@ -13,7 +13,7 @@ var models = require('./models/index.js');
 models.User.sync().then(function(result){
 	return models.Page.sync();
 }).then(function(data){
-	console.log(data);
+	// console.log(data);
 }).catch(console.error);
 
 // //middleware
