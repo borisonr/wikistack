@@ -5,7 +5,10 @@ var Page = models.Page;
 var User = models.User; 
 
 router.get("/", function(req, res){
-	res.redirect("/");
+	Page.findAll().then(function(pages){
+		console.log("here",pages[0]);
+		res.render('index', {Pages: pages});
+	});
 });
 
 
@@ -14,7 +17,7 @@ router.get("/add", function(req, res){
 });
 
 
-router.post("/", function(req, res){
+router.post("/", function(req, res, next){
 	var body = req.body;
 	
 	console.log(body);
@@ -23,13 +26,23 @@ router.post("/", function(req, res){
 	    content: body.content, 
 	    status: body.status,
 	    });
-	
-	page.save().then(function() {
-		res.redirect("/");
+
+	page.save().then(function(result) {
+		res.redirect(result.route).catch(next);
+		// res.redirect("/");
 		//return User.findByName(body.author)
-	});
+	}).catch(console.error);
 
 });
+
+router.get("/:title", function(req, res, next){
+	var title = req.params.title;
+	Page.find({
+		urlTitle: title
+	}).then(function(page){
+		res.render('wikipage', {page: page});}).catch(next);
+	
+})
 
 
 module.exports = router;
